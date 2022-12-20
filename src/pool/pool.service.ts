@@ -3,7 +3,7 @@ import { CreatePoolDto } from './dto/create-pool.dto';
 import { QueryPoolDto } from './dto/query-pool.dto';
 import { UpdatePoolDto } from './dto/update-pool.dto';
 import { Pool } from './entities/pool.entity';
-import { queryPoolResponseDto } from './dto/query-pool-response.dto';
+import { QueryPoolResponseDto } from './dto/query-pool-response.dto';
 
 @Injectable()
 export class PoolService {
@@ -36,12 +36,27 @@ export class PoolService {
     }
   }
   query(queryPoolDto: QueryPoolDto) {
-      pool = {}; //Tim pool trong this.pool where poolId queryPoolDto.poolld
-      calculatedQuantile = calculatedQuantile(pool, queryPoolDto.percentile);
+    // 1. @TODO: Tim pool trong this.pools where poolId queryPoolDto.poolId: pool = ???
+    Pool = {}
+    // 2. @TODO: Tinh calculatedQuantile
+    this.calculatedQuantile = this.calculatedQuantile(Pool, QueryPoolDto.percentile);
+    // 3. @TODO: Tra ve ket qua
+    let queryPoolResponseDto = new queryPoolResponseDto();
+    queryPoolResponseDto.calculatedQuantile = this.calculatedQuantile;
+    queryPoolResponseDto.count = Pool.poolValues.length;
 
-      queryPoolResponseDto = new queryPoolResponseDto();
-      queryPoolResponseDto.calculatedQuantile = calculatedQuantile;
-      queryPoolResponseDto.count = pool.poolValues.length;
-      return queryPoolResponseDto;
+    return queryPoolResponseDto;
+  }
+  calculatedQuantile(pool: Pool, per: number) {
+    //@TODO: Tinh quantile tu pool va per
+    //return ket qua tinh duoc
+    let x: Element = this.getElement(QueryPoolDto.poolId);
+    if (!x) : return 'notFound';
+    this.poolValues.sort();
+    let n = this.poolValues.length;
+    let rank = QueryPoolDto.percentile/100;
+    let res: number = rank * n;
+    if (res % 1 !== 0) res = Math.floor(res) + 1;
+    return this.poolValues[res - 1];
   }
 }
