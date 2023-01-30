@@ -57,6 +57,6 @@ export class PoolService {
     let rank = QueryPoolDto.percentile/100;
     let res: number = rank * n;
     if (res % 1 !== 0) res = Math.floor(res) + 1;
-    return this.poolValues[res - 1]
+    return this.poolValues[res - 1];
   }
 }
