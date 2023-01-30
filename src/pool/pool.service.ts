@@ -37,26 +37,26 @@ export class PoolService {
   }
   query(queryPoolDto: QueryPoolDto) {
     // 1. @TODO: Tim pool trong this.pools where poolId queryPoolDto.poolId: pool = ???
-    Pool = {}
-    // 2. @TODO: Tinh calculatedQuantile
-    this.calculatedQuantile = this.calculatedQuantile(Pool, QueryPoolDto.percentile);
+    Pool = {};
+    // 2. @TODO: Tinh calculatedQuantize
+    this.calculatedQuantize = this.calculatedQuantize(Pool, QueryPoolDto.percentile);
     // 3. @TODO: Tra ve ket qua
-    let queryPoolResponseDto = new queryPoolResponseDto();
-    queryPoolResponseDto.calculatedQuantile = this.calculatedQuantile;
+    const queryPoolResponseDto = new queryPoolResponseDto();
+    queryPoolResponseDto.calculatedQuantile = this.calculatedQuantize;
     queryPoolResponseDto.count = Pool.poolValues.length;
 
     return queryPoolResponseDto;
   }
-  calculatedQuantile(pool: Pool, per: number) {
+  calculatedQuantize(pool: Pool, per: number):number {
     //@TODO: Tinh quantile tu pool va per
     //return ket qua tinh duoc
     let x: Element = this.getElement(QueryPoolDto.poolId);
-    if (!x) : return 'notFound';
+    if (!x) : return 'notFound' ;
     this.poolValues.sort();
     let n = this.poolValues.length;
     let rank = QueryPoolDto.percentile/100;
     let res: number = rank * n;
     if (res % 1 !== 0) res = Math.floor(res) + 1;
-    return this.poolValues[res - 1];
+    return this.poolValues[res - 1]
   }
 }
